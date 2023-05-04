@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const fs = require('fs')
-const noteData = require('./db/db.json')
+
 
 const PORT = 3001;
 
@@ -18,7 +18,7 @@ app.get('/notes', (req, res) =>{
 })
 
 app.get('/api/notes', (req, res) => {
-    res.json(noteData)
+    res.sendFile('./db/db.json', {root: __dirname})
 })
 
 app.post('/api/notes', (req, res) =>{
@@ -35,11 +35,20 @@ app.post('/api/notes', (req, res) =>{
         res.status(201).json(note);
 
 
-        fs.writeFile('./db/db.json', JSON.stringify(note), (err) =>{
+        fs.readFile('./db/db.json', 'utf8', (err, data) =>{
             if(err){
                 console.log(err)
             }else{
-                console.log('this worked')
+                baseData = JSON.parse(data)
+                baseData.push(note)
+                console.log(baseData)
+                fs.writeFile('./db/db.json', JSON.stringify(baseData), (err) =>{
+                    if(err){
+                        console.log(err)
+                    }else{
+                        console.log('This Worked')
+                    }
+                })
             }
         })
 

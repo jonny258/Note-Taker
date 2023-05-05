@@ -63,32 +63,24 @@ app.post('/api/notes', (req, res) => {
 
 app.delete('/api/notes/:id', (req, res) => {
     const id = req.params.id;
-    let selectedNote;
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
         if (err) {
             console.log(err)
         } else {
             baseData = JSON.parse(data)
-            for(let i=0; i<baseData.length; i++){
-                if(noteData[i]){
-                    const currentId = noteData[i].id;
-                    if(currentId === id){
-                        baseData.splice(i,1)
-                    }
-                }
-                
+            const remove =  baseData.filter(item => item.id !== id)
 
-            }
-            fs.writeFile('./db/db.json', JSON.stringify(baseData), (err) =>{
+            fs.writeFile('./db/db.json', JSON.stringify(remove), (err) =>{
                 if(err){
                     console.log(err)
                 }else{
+                    res.json(remove)
                     console.log('delete worked')
                 }
             })
         }
     })
-    res.redirect('/notes')
+    //res.redirect('/notes')
 })
 
 // app.delete('/api/notes/:id', (req, res) =>{

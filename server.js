@@ -1,20 +1,17 @@
+//Getting the required packages
 const express = require('express');
 const app = express();
 const fs = require('fs')
 const uuid = require('./helpers/uuid')
-const noteData = require('./db/db.json')
 
-
-const PORT = 3001;
-
+//middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
-    console.log("you are on root")
-});
+const PORT = 3001;
 
+//Paths to the different pages and api
 app.get('/notes', (req, res) => {
     res.sendFile('./public/notes.html', { root: __dirname })
 })
@@ -44,7 +41,6 @@ app.post('/api/notes', (req, res) => {
             } else {
                 baseData = JSON.parse(data)
                 baseData.unshift(note)
-                console.log(baseData)
                 fs.writeFile('./db/db.json', JSON.stringify(baseData), (err) => {
                     if (err) {
                         console.log(err)
@@ -80,21 +76,8 @@ app.delete('/api/notes/:id', (req, res) => {
             })
         }
     })
-    //res.redirect('/notes')
 })
 
-// app.delete('/api/notes/:id', (req, res) =>{
-//     const id = req.params.id;
-//     const displayData = [];
-//     console.log(id);
-//     for(let i=0; i<noteData.length; i++){
-//         const currentId = noteData[i].id;
-//         if(currentId === id){
-//             displayData.push(noteData[i])
-//         }
-//     }
-//     return res.json(displayData);
-// })
 
 app.listen(PORT, () => {
     console.log(`Site is live at http://localhost:${PORT}`)

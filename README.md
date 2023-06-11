@@ -35,6 +35,8 @@ Clicking on the Delete icon next to a specific note in the list in the left-hand
 
 ## Usage
 
+[Heroku Deployment]([https://forest-tech-blog.herokuapp.com/login](https://jonny-note-taker.herokuapp.com/))
+
 To use the Note-Taking application, simply open the landing page and click on the link to the Notes page. From there, you can create new notes, save them, view existing notes, and delete notes by clicking on the Delete icon next to the note you want to delete. Clicking on the Write icon allows you to create a new note at any time.
 
 ## Technologies Used
